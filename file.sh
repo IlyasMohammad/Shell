@@ -198,10 +198,11 @@ watch_folder() {
 empty_folder() {
   local folder=$1
   if [[ "${folder}" =~ ^/$ || ! -d "${folder}" ]]; then
-    return "Cannot delete ${folder}"
+   echo  Cannot delete "${folder}"
+   return 0
   fi
 
-  rm -rf ${folder}/* >&2
+  rm -rf "${folder}:?/"* >&2
 }
 
 get_region() {
@@ -375,7 +376,7 @@ get_container_id_by_name() {
 
   result=$(docker ps -aqf name=${name})
 
-  if [[ result ]]; then
+  if [[ "$result" ]]; then
     echo -n "${result}"
   fi
 }
